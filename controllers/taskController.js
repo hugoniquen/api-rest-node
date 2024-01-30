@@ -49,6 +49,23 @@ const taskController = {
     },
 
     // Actualizar una tarea
+     updateTask: async(req, res)=>{
+        try {
+            // const {id, titulo, descripcion, estado, fechaVencimiento} = req.body;
+            const { estado} = req.body;
+            if (!['pendiente', 'en progreso', 'completada'].includes(estado)) {
+                throw new Error('Estado incorrecto');
+            }
+            const updateTask = await Task.findByIdAndUpdate(req.params.id, req.body, {new: true});
+            if (!updateTask) {
+                res.status(202).json({message: "Error al actualizar task"});    
+            }
+            res.status(200).json(updateTask);
+
+        } catch (error) {
+            res.status(500).json({message: error.message});
+        }
+     },
 
     // Eliminar una tarea por ID
 
