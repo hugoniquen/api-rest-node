@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose"); //ORM
 const cors = require('cors');
+const taskRouters  =require('./routers/taskRouter');
 
 require("dotenv").config();
 
@@ -19,8 +20,11 @@ mongoose
   })
   .catch((err) => console.error("No se logro conectar a la BD Mongo"));
 
-  const PORT = process.env.PORT || 8080;
 
-  app.listen(PORT, ()=>{
-    console.log(`Servidor ejecutandose en el puerto ${PORT}`);
-  });
+app.use('/api/task', taskRouters);
+
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, ()=>{
+console.log(`Servidor ejecutandose en el puerto ${PORT}`);
+});
