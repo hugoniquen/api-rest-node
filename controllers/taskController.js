@@ -57,18 +57,30 @@ const taskController = {
                 throw new Error('Estado incorrecto');
             }
             const updateTask = await Task.findByIdAndUpdate(req.params.id, req.body, {new: true});
-            if (!updateTask) {
-                res.status(202).json({message: "Error al actualizar task"});    
+            if (updateTask) {
+                res.status(200).json(updateTask);
+            }else{
+                res.status(202).json({message: "Error al actualizar task"});
             }
-            res.status(200).json(updateTask);
-
         } catch (error) {
             res.status(500).json({message: error.message});
         }
      },
 
     // Eliminar una tarea por ID
-
+    deleteTask: async(req, res)=>{
+        try {
+            const deleteTask = await Task.findByIdAndDelete(req.params.id);
+            if (deleteTask) {
+                res.status(200).json({message:"Task eliminada correctamente"});                
+            }else{
+                res.status(404).json({message: "No existe Task con el Id ingresado"});
+            }
+            
+        } catch (error) {
+            res.status(500).json({message: error.message});
+        }
+    },
 }
 
 
