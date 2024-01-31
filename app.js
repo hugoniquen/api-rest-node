@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose"); //ORM
 const cors = require('cors');
 const taskRouters  =require('./routers/taskRouter');
+const authRouter = require('./routers/authRouter');
 
 require("dotenv").config();
 
@@ -21,7 +22,9 @@ mongoose
   .catch((err) => console.error("No se logro conectar a la BD Mongo"));
 
 
+app.use('/api/users', authRouter )
 app.use('/api/task', taskRouters);
+
 
 const PORT = process.env.PORT || 8080;
 

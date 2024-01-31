@@ -26,7 +26,7 @@ const authController = {
             restart.status(201).json({token, user: newUser});
 
         } catch (error) {
-            restart.status(500).json({message: error});
+            restart.status(500).json({message: error.message});
         }
     },
 
@@ -46,7 +46,7 @@ const authController = {
             res.status(200).json({token, user});
 
         } catch (error) {
-            res.status(400).json({message: error});
+            res.status(400).json({message: error.message});
         }
     }
 };
