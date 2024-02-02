@@ -9,3 +9,5 @@ Api rest con node y express. Contribute to HugoNiquen/api-rest-node development 
 
 
 Para cargar Mondo db, se debe crear la carpeta C:\data\db y dentro del instalador de mongo ejecutar al archivo mongod.exe.
+
+Se debe agregar otros datos
