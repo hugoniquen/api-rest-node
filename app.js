@@ -1,7 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose"); //ORM
 const cors = require('cors');
-const taskRouters  =require('./routers/taskRouter');
+const jwt = require('jsonwebtoken');
+
+const taskRouter  =require('./routers/taskRouter');
 const authRouter = require('./routers/authRouter');
 
 require("dotenv").config();
@@ -21,9 +23,28 @@ mongoose
   })
   .catch((err) => console.error("No se logro conectar a la BD Mongo"));
 
+// Middleware
+const authenticateToken = (req, res, next)=>{
+  const token = req.header('Authorization');
+  if (!token) {
+    return res.status(401).json({message: 'token de autorizacion no proporcionado'});
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user)=>{
+    if (err) {
+      return res.status(403).json({message: 'Token no autenticaion no valido'});
+    }
+    console.log(user);
+    req.user = user;
+    next();
+  });
+
+  
+};
+
 
 app.use('/api/users', authRouter )
-app.use('/api/task', taskRouters);
+app.use('/api/task', authenticateToken, taskRouter);
 
 
 const PORT = process.env.PORT || 8080;

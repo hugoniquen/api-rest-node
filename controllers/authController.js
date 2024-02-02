@@ -23,10 +23,10 @@ const authController = {
             await newUser.save();
             const token = generaToken(newUser);
 
-            restart.status(201).json({token, user: newUser});
+            res.status(201).json({token, user: newUser});
 
         } catch (error) {
-            restart.status(500).json({message: error.message});
+            res.status(500).json({message: error.message});
         }
     },
 
@@ -48,7 +48,16 @@ const authController = {
         } catch (error) {
             res.status(400).json({message: error.message});
         }
-    }
+    },
+
+    getAllUser: async (req, res)=>{
+        try {
+            const users = await User.find();
+            res.status(200).json({users});
+        } catch (error) {
+            res.status(500).json({message: error.message});
+        }
+    },
 };
 
 module.exports = authController;
